@@ -1,0 +1,1 @@
+3 Fatorial é igual a: 6

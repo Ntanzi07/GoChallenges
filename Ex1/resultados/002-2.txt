@@ -1,0 +1,1 @@
+2 Fatorial é igual a: 2

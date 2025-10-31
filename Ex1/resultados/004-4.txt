@@ -1,0 +1,1 @@
+4 Fatorial é igual a: 24
