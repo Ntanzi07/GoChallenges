@@ -2,7 +2,9 @@ package data
 
 import (
 	"Ex4/models"
+	"encoding/json"
 	"errors"
+	"os"
 	"sync"
 	"time"
 )
@@ -13,6 +15,50 @@ var (
 )
 
 var lastId = 0
+
+func LoadTasks() error {
+	mu.Lock()
+	defer mu.Unlock()
+
+	file, err := os.Open("data/tasks.json")
+	if err != nil {
+		if os.IsNotExist(err) {
+			tasks = []models.Task{}
+			return nil
+		}
+		return err
+	}
+	defer file.Close()
+
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(&tasks)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func SaveTasks() error {
+	mu.Lock()
+	defer mu.Unlock()
+
+	data, err := json.MarshalIndent(tasks, "", " ")
+	if err != nil {
+		return err
+	}
+
+	err = os.MkdirAll("data", os.ModePerm)
+	if err != nil {
+		return err
+	}
+
+	err = os.WriteFile("data/tasks.json", data, 0644)
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
 
 func GetById(id int) (*models.Task, error) {
 	mu.Lock()
@@ -59,6 +105,11 @@ func Create(title string, description string) (*models.Task, error) {
 	}
 
 	tasks = append(tasks, newTask)
+
+	err := SaveTasks()
+	if err != nil {
+		return nil, err
+	}
 	return &newTask, nil
 }
 
@@ -84,6 +135,10 @@ func Update(updated models.Task) (*models.Task, error) {
 	task.Description = updated.Description
 	task.Completed = updated.Completed
 
+	err = SaveTasks()
+	if err != nil {
+		return nil, err
+	}
 	return task, err
 }
 
@@ -97,6 +152,10 @@ func Delete(id int) error {
 	}
 
 	tasks = append(tasks[:index], tasks[index+1:]...)
+	err = SaveTasks()
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
