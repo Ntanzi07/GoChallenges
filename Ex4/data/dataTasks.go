@@ -17,12 +17,13 @@ var lastId = 0
 func GetById(id int) (*models.Task, error) {
 	mu.Lock()
 	defer mu.Unlock()
-	for _, v := range tasks {
-		if v.ID == id {
-			return &v, nil
+
+	for i := range tasks {
+		if tasks[i].ID == id {
+			return &tasks[i], nil
 		}
 	}
-	return nil, errors.New("not finded")
+	return nil, errors.New("not found")
 }
 
 func GetAll() []models.Task {
@@ -51,10 +52,6 @@ func Create(title string, description string) (*models.Task, error) {
 func Update(updated models.Task) (*models.Task, error) {
 
 	task, err := GetById(updated.ID)
-
-	mu.Lock()
-	defer mu.Unlock()
-
 	if err != nil {
 		return nil, err
 	}
@@ -67,6 +64,11 @@ func Update(updated models.Task) (*models.Task, error) {
 		task.Description = updated.Description
 	}
 
+	mu.Lock()
+	defer mu.Unlock()
+
+	task.Title = updated.Title
+	task.Description = updated.Description
 	task.Completed = updated.Completed
 
 	return task, err
