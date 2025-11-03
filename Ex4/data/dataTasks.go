@@ -26,6 +26,19 @@ func GetById(id int) (*models.Task, error) {
 	return nil, errors.New("not found")
 }
 
+func GetByCompleted(completed bool) []models.Task {
+	mu.Lock()
+	defer mu.Unlock()
+
+	var filtered []models.Task
+	for _, task := range tasks {
+		if task.Completed == completed {
+			filtered = append(filtered, task)
+		}
+	}
+	return filtered
+}
+
 func GetAll() []models.Task {
 	mu.Lock()
 	defer mu.Unlock()

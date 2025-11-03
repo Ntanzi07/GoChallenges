@@ -9,8 +9,16 @@ import (
 )
 
 func GetAll(c *fiber.Ctx) error {
-	tasks := data.GetAll()
-	return c.JSON(tasks)
+
+	query, err := strconv.ParseBool(c.Query("completed"))
+	if err != nil {
+		tasks := data.GetAll()
+		return c.JSON(tasks)
+	}
+
+	filtered := data.GetByCompleted(query)
+
+	return c.JSON(filtered)
 }
 
 func GetById(c *fiber.Ctx) error {
