@@ -59,3 +59,28 @@ func Delete(c *fiber.Ctx) error {
 
 	return c.JSON(fiber.Map{"message": "Tarefa removida com sucesso"})
 }
+
+func Create(c *fiber.Ctx) error {
+
+	var input struct {
+		Title       string `json:"title"`
+		Description string `json:"description"`
+	}
+
+	if err := c.BodyParser(&input); err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "invalid JSON"})
+	}
+	if input.Title == "" {
+		return c.Status(400).JSON(fiber.Map{"error": "title is required"})
+	}
+	if input.Description == "" {
+		return c.Status(400).JSON(fiber.Map{"error": "description is required"})
+	}
+
+	newTask, err := data.Create(input.Title, input.Description)
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "task not created"})
+	}
+
+	return c.Status(201).JSON(newTask)
+}
