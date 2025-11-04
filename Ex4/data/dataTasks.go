@@ -35,6 +35,8 @@ func LoadTasks() error {
 	if err != nil {
 		return err
 	}
+
+	lastId = tasks[len(tasks)-1].ID
 	return nil
 }
 
@@ -93,7 +95,7 @@ func GetAll() []models.Task {
 
 func Create(title string, description string) (*models.Task, error) {
 	mu.Lock()
-	defer mu.Unlock()
+
 	lastId++
 
 	newTask := models.Task{
@@ -106,6 +108,7 @@ func Create(title string, description string) (*models.Task, error) {
 
 	tasks = append(tasks, newTask)
 
+	mu.Unlock()
 	err := SaveTasks()
 	if err != nil {
 		return nil, err
@@ -129,12 +132,12 @@ func Update(updated models.Task) (*models.Task, error) {
 	}
 
 	mu.Lock()
-	defer mu.Unlock()
 
 	task.Title = updated.Title
 	task.Description = updated.Description
 	task.Completed = updated.Completed
 
+	mu.Unlock()
 	err = SaveTasks()
 	if err != nil {
 		return nil, err
@@ -144,7 +147,6 @@ func Update(updated models.Task) (*models.Task, error) {
 
 func Delete(id int) error {
 	mu.Lock()
-	defer mu.Unlock()
 
 	index, err := findId(id)
 	if err != nil {
@@ -152,6 +154,9 @@ func Delete(id int) error {
 	}
 
 	tasks = append(tasks[:index], tasks[index+1:]...)
+
+	mu.Unlock()
+
 	err = SaveTasks()
 	if err != nil {
 		return err
