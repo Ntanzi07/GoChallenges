@@ -1,26 +1,26 @@
-# 🧩 Desafio: API de Gerenciamento de Tarefas (TODO API)
+# Challenge: Task Management API (TODO API)
 
-## 🎯 Objetivo
+## Objective
 
-Criar uma **API REST em Go usando Fiber** que permita **gerenciar tarefas** — listar, criar, atualizar e excluir.
-
----
-
-## 📜 Descrição
-
-A API deve permitir as seguintes operações:
-
-| Método | Rota | Descrição |
-|--------|-------|------------|
-| `GET` | `/tasks` | Retorna todas as tarefas |
-| `GET` | `/tasks/:id` | Retorna uma tarefa específica |
-| `POST` | `/tasks` | Cria uma nova tarefa |
-| `PUT` | `/tasks/:id` | Atualiza uma tarefa existente |
-| `DELETE` | `/tasks/:id` | Remove uma tarefa |
+Create a **REST API in Go using Fiber** that allows you to **manage tasks** — list, create, update, and delete.
 
 ---
 
-## 🧱 Estrutura do Projeto
+## Description
+
+The API must support the following operations:
+
+| Method | Route | Description |
+|--------|--------|-------------|
+| `GET` | `/tasks` | Returns all tasks |
+| `GET` | `/tasks/:id` | Returns a specific task |
+| `POST` | `/tasks` | Creates a new task |
+| `PUT` | `/tasks/:id` | Updates an existing task |
+| `DELETE` | `/tasks/:id` | Deletes a task |
+
+---
+
+## Project Structure
 
 ```
 /todo-api
@@ -38,7 +38,7 @@ A API deve permitir as seguintes operações:
 
 ---
 
-## 💾 Modelo de Dados
+## Data Model
 
 ```go
 type Task struct {
@@ -51,36 +51,36 @@ type Task struct {
 
 ---
 
-## 🔧 Requisitos
+## Requirements
 
-- Use o **Fiber** (`go get github.com/gofiber/fiber/v2`).
-- Os dados devem ser armazenados **em memória** (um slice `[]Task`).
-- Cada nova tarefa recebe automaticamente um novo `ID` e `CreatedAt = time.Now()`.
-
----
-
-## 🔥 Desafio Extra (opcional)
-
-- Persistir dados em um arquivo `tasks.json`.
-- Adicionar validações no POST (não aceitar título vazio).
-- Filtrar tarefas por status: `/tasks?completed=true` ou `/tasks?completed=false`.
+- Use **Fiber** (`go get github.com/gofiber/fiber/v2`).
+- Store data **in memory** (a slice `[]Task`).
+- Each new task should automatically receive a new `ID` and `CreatedAt = time.Now()`.
 
 ---
 
-## 🧪 Exemplo de Requisições
+## Extra Challenge (optional)
 
-### ➕ POST `/tasks`
+- Persist data in a `tasks.json` file.
+- Add validation for POST (do not accept empty titles).
+- Filter tasks by status: `/tasks?completed=true` or `/tasks?completed=false`.
+
+---
+
+## Example Requests
+
+### POST `/tasks`
 **Body:**
 ```json
 {
-  "title": "Estudar Go e Fiber"
+  "title": "Study Go and Fiber"
 }
 ```
 **Response:**
 ```json
 {
   "id": 1,
-  "title": "Estudar Go e Fiber",
+  "title": "Study Go and Fiber",
   "completed": false,
   "created_at": "2025-10-31T14:23:00Z"
 }
@@ -88,13 +88,13 @@ type Task struct {
 
 ---
 
-### 🔍 GET `/tasks`
+### GET `/tasks`
 ```json
 {
   "tasks": [
     {
       "id": 1,
-      "title": "Estudar Go e Fiber",
+      "title": "Study Go and Fiber",
       "completed": false,
       "created_at": "2025-10-31T14:23:00Z"
     }
@@ -104,7 +104,7 @@ type Task struct {
 
 ---
 
-### ✅ PUT `/tasks/1`
+### PUT `/tasks/1`
 **Body:**
 ```json
 {
@@ -114,29 +114,29 @@ type Task struct {
 
 ---
 
-### ❌ DELETE `/tasks/1`
+### DELETE `/tasks/1`
 **Response:**
 ```json
 {
-  "message": "Tarefa removida com sucesso"
+  "message": "Task successfully removed"
 }
 ```
 
 ---
 
-## 🎯 Conceitos Praticados
+## Concepts Practiced
 
-- Rotas no Fiber  
-- Structs e JSON  
-- Manipulação de slices e busca por ID  
-- Organização em camadas (`models`, `data`, `handlers`, `routes`)  
-- Boas práticas em projetos Go  
+- Routing with Fiber  
+- Structs and JSON  
+- Slice manipulation and ID search  
+- Layered architecture (`models`, `data`, `handlers`, `routes`)  
+- Go project best practices  
 
 ---
 
-### 💡 Dica
+### Tip
 
-Para rodar a API:
+To run the API:
 
 ```bash
 go mod init todo-api
@@ -146,4 +146,4 @@ go run main.go
 
 ---
 
-👨‍💻 Desenvolvido como desafio prático para treinar **Go + Fiber**.
+Developed as a practical challenge to practice **Go + Fiber**.

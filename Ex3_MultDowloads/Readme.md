@@ -1,7 +1,5 @@
 > ## 3º Desafio
-# Corrida de Downloads - GoLang
-
-## English
+# Downloads race - GoLang
 
 ## Objective
 
@@ -70,69 +68,4 @@ Save a log file (.txt) with all completed downloads.
 [fileB.zip] 100% ✅
 [fileC.zip] 100% ✅
 ✅ All downloads completed!
-```
-
-
-## Portuguese 
-## Objetivo
-
-Simular um sistema que baixa arquivos em paralelo, cada um com tempos de download diferentes, e exibe o progresso em tempo real.
-
-## Descrição
-
-Crie um programa em Go que:
-
-Possua uma lista de arquivos para “baixar” (simulados).
-Exemplo:
-
-```
-files := []string{"fileA.zip", "fileB.zip", "fileC.zip"}
-```
-
-Para cada arquivo, o programa deve:
-
-- Criar uma goroutine que simula o download (ex: time.Sleep(time.Second * n)).
-- Enviar mensagens de progresso (em %) por um canal.
-- Informar quando o download terminar.
-- Enquanto isso, a função principal:
-- Recebe as mensagens dos canais.
-
-Mostra no terminal algo como:
-```
-[fileA.zip] 45%
-[fileB.zip] 72%
-[fileC.zip] 18%
-```
-
-Quando todos os downloads terminarem, o programa exibe:
-```
-✅ Todos os downloads concluídos!
-```
-## Regras
-
-- Cada “download” deve rodar em uma goroutine separada.
-- Use um WaitGroup para garantir que todos terminem antes de encerrar o programa.
-- Use select com time.After` para simular variações de tempo.
-- Os canais devem ser fechados corretamente ao final.
-
-## Extras (opcionais)
-
-Adicione uma barra de progresso animada no terminal (com fmt.Printf("\r...")).
-
-Permita configurar a quantidade de downloads simultâneos (tipo um “limite de threads”).
-
-Salve o log dos downloads finalizados em um arquivo .txt.
-
-## Exemplo de saída
-```
-[fileA.zip] 0%
-[fileB.zip] 0%
-[fileC.zip] 0%
-[fileA.zip] 30%
-[fileB.zip] 40%
-[fileC.zip] 20%
-[fileA.zip] 100% ✅
-[fileB.zip] 100% ✅
-[fileC.zip] 100% ✅
-✅ Todos os downloads concluídos!
 ```
